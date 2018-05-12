@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	    <title>Simple Sociality</title>
+	    <!-- Bootstrap -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+	</head>
+
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<ul class="nav nav-tabs">
+						<li><a th:href="@{'/mymessages/'+${userId}}">My Posts</a></li>
+						<li class="active"><a href="#">Following Posts</a></li>
+						<li><a th:href="@{'/myusers/'+${userId}}">Users</a></li>
+						<li class="dropdown pull-right"><a href="#" data-toggle="dropdown" class="dropdown-toggle" th:text="${userName}"><strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">My profile</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout">Log out</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div class="row-fluid" th:if="${not #lists.isEmpty(myFollowingMessages)}" >
+						<div class="span12">
+							<div class="control-group" th:each="message : ${myFollowingMessages}">
+								<div class="controls">
+									<small class="bg-info" th:text="${message.createdDate} + ' - ' + ${message.user.name} + ':'"></small>
+									<p th:text="${message.content}"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(myFollowingMessages)}" class="container">
+			<div class="alert alert-warning">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4>Warning</h4>
+				You are not following anyone or they have not any post for now
+			</div>
+		</div>
+	</body>
+</html>

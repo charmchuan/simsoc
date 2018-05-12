@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="utf-8" />
+	    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	    <meta name="viewport" content="width=device-width, initial-scale=1" />
+	    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+	    <title>Simple Sociality</title>
+	    <!-- Bootstrap -->
+	    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+	</head>
+
+	<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<body>
+		<div class="container-fluid">
+			<div class="row-fluid">
+				<div class="span12">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#">My Posts</a></li>
+						<li><a th:href="@{'/myfollowingmessages/' + ${userId}}">Following Posts</a></li>
+						<li><a th:href="@{'/myusers/'+${userId}}">Users</a></li>
+						<li class="dropdown pull-right"><a href="#" data-toggle="dropdown" class="dropdown-toggle" th:text="${userName}"><strong class="caret"></strong></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">My Profile</a></li>
+								<li class="divider"></li>
+								<li><a href="/logout">Log out</a></li>
+							</ul>
+						</li>
+					</ul>
+					<div class="row-fluid">
+						<div class="span12">
+							<form class="form-horizontal" th:action="${'/postmessage/' + userId}" method="post">
+								<div class="control-group">
+									<div class="controls">
+										<label class="control-label">Write something ...</label>
+									</div>
+									<div class="controls">
+										<textarea name="message" rows="6" cols="60" maxlength="140" placeholder="Maximum length is 140 characters."></textarea> 
+									</div>
+									<div class="controls">
+										 <button type="submit" class="btn btn-default">Post</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<hr style="height:1px;border:none;border-top:1px solid #555555;" />
+					<div class="row-fluid" th:if="${not #lists.isEmpty(myMessages)}" >
+						<div class="span12">
+							<div class="control-group" th:each="message : ${myMessages}">
+								<div class="controls">
+									<small class="bg-info" th:text="${message.createdDate} + ' - ' + ${message.user.name} + ':'"></small>
+									<p th:text="${message.content}"></p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div th:if="${#lists.isEmpty(myMessages)}" class="container">
+			<div class="alert alert-warning">
+				<button type="button" class="close" data-dismiss="alert">×</button>
+				<h4>Warning</h4>
+				You have not any post for now
+			</div>
+		</div>
+	</body>
+</html>
