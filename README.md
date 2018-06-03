@@ -17,7 +17,7 @@
 
 - Configure -
 1) Configure the deployed 'simsoc/config/logback.xml', especially on the path where you expect the log to be written
-	<property name="LOG_PATH" value="/tmp/log" />
+	> <property name="LOG_PATH" value="/tmp/log" />
 2) Surely, you can configure whatever you want inside 'simsoc/config/logback.xml'
 3) You can also configure 'simsoc/config/application.properties' if you are familiar with Spring Boot and would like to override some of the default properties of Spring Boot
 
