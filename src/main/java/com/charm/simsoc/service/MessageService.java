@@ -1,54 +1,70 @@
 package com.charm.simsoc.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.charm.simsoc.domain.Message;
-import com.charm.simsoc.domain.User;
-import com.charm.simsoc.repository.MessageRepository;
 
-@Service
-public class MessageService {
+/**
+ * The MessageService interface contains corresponding operations on Message instance(s)
+ * 
+ * @author charm
+ *
+ */
+public interface MessageService {
 
-    @Autowired
-    private MessageRepository messageRepository;
-    @Autowired
-    private UserService userService;
+    /**
+     * List all Messages <br><br>
+     * 
+     * <I>Ideally, it is best to include pagination number as parameters to retrieve pieces of Messages, it is not designed as this in order to make it as simple as it can, with considering not much volume in such simple application</I>
+     * 
+     * @return list of Message
+     */
+    public List<Message> getAllMessages();
 
-    public List<Message> getAllMessages() {
-        List<Message> messages = new ArrayList<Message>();
-        messageRepository.findAll().forEach(messages::add);
-        return messages;
-    }
+    /**
+     * Retrieve particular message by specifying Message id
+     * 
+     * @param id
+     * @return Message
+     */
+    public Message getMessage(Long id);
 
-    public Message getMessage(Long id) {
-        return messageRepository.findOne(id);
-    }
+    /**
+     * Create a new message <br><b>Message.id should be null and to be assigned by system. User.id should be assigned to identify the ownership of the message</b>
+     * @param Message
+     * @return created Message with Message.id assigned
+     */
+    public Message addMessage(Message message);
 
-    public Message addMessage(Message message) {
-        return messageRepository.save(message);
-    }
+    /**
+     * Update Message
+     * @param message with Message.id
+     * @return updated Message
+     */
+    public Message updateMessage(Message message);
 
-    public Message updateMessage(Message message) {
-        return messageRepository.save(message);
-    }
+    /**
+     * Delete particular message by specifying Message id
+     * @param id
+     */
+    public void deleteMessage(Long id);
 
-    public void deleteMessage(Long id) {
-        messageRepository.delete(id);
-    }
+    /**
+     * List all Messages from particular User<br><br>
+     * 
+     * <I>Ideally, it is best to include pagination number as parameters to retrieve pieces of Messages, it is not designed as this in order to make it as simple as it can, with considering not much volume in such simple application</I>
+     * 
+     * @return list of Message
+     */
+    public List<Message> listMessagesByUserId(Long userId);
 
-    public List<Message> listMessagesByUserId(Long userId) {
-        List<Message> messages = new ArrayList<Message>();
-        User user = userService.getUser(userId);
-        user.getMessages().forEach(messages::add);
-        return messages;
-    }
+    /**
+     * List all Messages that particular User is following<br><br>
+     * 
+     * <I>Ideally, it is best to include pagination number as parameters to retrieve pieces of Messages, it is not designed as this in order to make it as simple as it can, with considering not much volume in such simple application</I>
+     * 
+     * @return list of Message
+     */
+    public List<Message> listFollowingMessagesByUserId(Long userId);
 
-    public List<Message> listFollowingMessagesByUserId(Long userId) {
-        List<Message> messages = messageRepository.getFollowingMessagesByUserId(userId);
-        return messages;
-    }
 }

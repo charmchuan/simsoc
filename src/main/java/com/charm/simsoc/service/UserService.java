@@ -1,63 +1,73 @@
 package com.charm.simsoc.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.charm.simsoc.domain.User;
-import com.charm.simsoc.repository.UserRepository;
 
-@Service
-public class UserService {
+/**
+ * The UserService interface contains corresponding operations on User instance(s)
+ * 
+ * @author charm
+ *
+ */
+public interface UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    /**
+     * List all Users <br><br>
+     * 
+     * <I>Ideally, it is best to include pagination number as parameters to retrieve pieces of Users, it is not designed as this in order to make it as simple as it can, with considering not much volume in such simple application</I>
+     * 
+     * @return list of User
+     */
+    public List<User> listAllUsers();
 
-    public List<User> listAllUsers() {
-        List<User> users = new ArrayList<User>();
-        userRepository.findAll().forEach(users::add);
-        return users;
-    }
+    /**
+     * Retrieve particular user by specifying User id
+     * 
+     * @param id
+     * @return User
+     */
+    public User getUser(Long id);
 
-    public User getUser(Long id) {
-        return userRepository.findOne(id);
-    }
+    /**
+     * Create a new User <br><b>User.id should be null and to be assigned by system.</b>
+     * @param user
+     * @return created User with User.id assigned
+     */
+    public User addUser(User user);
 
-    public User addUser(User user) {
-        return userRepository.save(user);
-    }
+    /**
+     * Update User
+     * @param user with User.id
+     * @return updated User
+     */
+    public User updateUser(User user);
 
-    public User updateUser(User user) {
-        return userRepository.save(user);
-    }
+    /**
+     * Delete particular user by specifying User id
+     * @param id
+     */
+    public void deleteUser(Long id);
 
-    public void deleteUser(Long id) {
-//        User user = this.getUser(id);
-//        user.setFollowingUsers(null);
-//        user.setFollowedByUsers(null);
-//        user.setMessages(null);
-//        this.updateUser(user);
-        userRepository.delete(id);
-    }
+    /**
+     * Follow a User
+     * @param followerId (The User to follow)
+     * @param userId (The User to be followed)
+     */
+    public void followUser(Long followerId, Long userId);
 
-    public void followUser(Long followerId, Long userId) {
-        User follower = getUser(followerId);
-        User user = getUser(userId);
-        follower.follow(user);
-        this.updateUser(follower);
-    }
+    /**
+     * Unfollow a User
+     * @param followerId (The User to unfollow)
+     * @param userId (The User to be unfollowed)
+     */
+    public void unFollowUser(Long followerId, Long userId);
 
-    public void unFollowUser(Long followerId, Long userId) {
-        User follower = getUser(followerId);
-        User user = getUser(userId);
-        follower.unFollow(user);
-        this.updateUser(follower);
-    }
-
-    public List<User> findByName(String name) {
-        return userRepository.findByName(name);
-    }
+    /**
+     * Search Users by exact user name
+     * @param name
+     * @return list of Users
+     */
+    public List<User> findByName(String name);
 
 }

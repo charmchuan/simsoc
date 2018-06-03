@@ -3,6 +3,8 @@ package com.charm.simsoc;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -11,29 +13,50 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import com.charm.simsoc.domain.Message;
 import com.charm.simsoc.domain.User;
-import com.charm.simsoc.service.MessageService;
 import com.charm.simsoc.service.UserService;
+import com.charm.simsoc.service.MessageService;
 
+/**
+ * The entrance of the application
+ * 
+ * @author charm
+ *
+ */
 @EnableJpaAuditing
 @SpringBootApplication
 public class SimpleSocialityApplication implements CommandLineRunner {
     
+    /** logger **/
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    
+    /** whether to pre setup test data **/
     private boolean setupTestData = true;
 
     @Autowired
+    /** userService **/
     private UserService userService;
     
     @Autowired
+    /** messageService **/
     private MessageService messageService;
 
+    /**
+     * entry point for SpringBoot
+     * 
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(SimpleSocialityApplication.class, args);
     }
 
+    /* (non-Javadoc)
+     * @see org.springframework.boot.CommandLineRunner#run(java.lang.String[])
+     */
     @Override
     public void run(String... args) throws Exception {
 
         if (setupTestData) {
+            logger.info("--- pre setup users ---");
             User adrian = new User("Adrian");
             User dillon = new User("Dillon");
             User lik = new User("Lik");

@@ -12,32 +12,56 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+/**
+ * Abstract domain class that can automatically log down created date time and modified date time when persisting object
+ * 
+ * @author charm
+ *
+ */
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 abstract class Auditable {
 
     @CreatedDate
     @Temporal(TIMESTAMP)
-    protected Date createdDate;
+    /** created date time **/
+    protected Date createdDateTime;
 
     @LastModifiedDate
     @Temporal(TIMESTAMP)
-    protected Date lastModifiedDate;
+    /** created date time **/
+    protected Date lastModifiedDateTime;
 
-    public Date getCreatedDate() {
-        return createdDate;
+    /**
+     * get created date time
+     * @return Date
+     */
+    public Date getCreatedDateTime() {
+        return createdDateTime;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    /**
+     * set created date time
+     * @param createdDateTime
+     */
+    public void setCreatedDateTime(Date createdDateTime) {
+        this.createdDateTime = createdDateTime;
     }
 
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
+    /**
+     * get last modified date time
+     * @return
+     */
+    public Date getLastModifiedDateTime() {
+        return lastModifiedDateTime;
     }
 
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
+    /**
+     * set last modified date time
+     * @param lastModifiedDateTime
+     */
+    public void setLastModifiedDateTime(Date lastModifiedDateTime) {
+        this.lastModifiedDateTime = lastModifiedDateTime;
     }
 
 }

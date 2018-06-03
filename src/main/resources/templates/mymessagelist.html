@@ -50,7 +50,7 @@
 						<div class="span12">
 							<div class="control-group" th:each="message : ${myMessages}">
 								<div class="controls">
-									<small class="bg-info" th:text="${message.createdDate} + ' - ' + ${message.user.name} + ':'"></small>
+									<small class="bg-info" th:text="${message.createdDateTime} + ' - ' + ${message.user.name} + ':'"></small>
 									<p th:text="${message.content}"></p>
 								</div>
 							</div>

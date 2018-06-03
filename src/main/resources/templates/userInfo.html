@@ -36,21 +36,23 @@
 							<img src="/images/potrait.jpeg" />
 							<p th:text="${targetUser.name}" />
 							
-							<div th:if="${hasFollowed == true}">
-								<small class="bg-success">followed</small>
-								<form class="form-horizontal" th:action="${'/unfollowuser/' + userId}" method="post">
-									<input name="targetuserid" type="hidden" th:value="${targetUser.id}" />
-									<br></br>
-									<button type="submit" class="btn btn-default btn-xs">Un-follow</button>
-								</form>
-							</div>
-							<div th:if="${hasFollowed == false}">
-								<small class="bg-success">Un-followed</small>
-								<form class="form-horizontal" th:action="${'/followuser/' + userId}" method="post">
-									<input name="targetuserid" type="hidden" th:value="${targetUser.id}" />
-									<br></br>
-									<button type="submit" class="btn btn-default btn-xs">Follow</button>
-								</form>
+							<div th:if="${userId != targetUser.id}"> <!-- Self-view info, it should not follow/unfollow himself/herself -->
+								<div th:if="${hasFollowed == true}">
+									<small class="bg-success">followed</small>
+									<form class="form-horizontal" th:action="${'/unfollowuser/' + userId}" method="post">
+										<input name="targetuserid" type="hidden" th:value="${targetUser.id}" />
+										<br></br>
+										<button type="submit" class="btn btn-default btn-xs">Un-follow</button>
+									</form>
+								</div>
+								<div th:if="${hasFollowed == false}">
+									<small class="bg-success">Un-followed</small>
+									<form class="form-horizontal" th:action="${'/followuser/' + userId}" method="post">
+										<input name="targetuserid" type="hidden" th:value="${targetUser.id}" />
+										<br></br>
+										<button type="submit" class="btn btn-default btn-xs">Follow</button>
+									</form>
+								</div>
 							</div>
 						</div>
 					</div>
